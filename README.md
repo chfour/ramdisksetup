@@ -18,10 +18,16 @@ ramdisk [-h] SIZE [PATH]
 
 ## installation
 
-Simply move the `ramdisk` file into your $PATH, for example `.local/bin/`:
+Simply copy the `ramdisk` file into your $PATH, for example `.local/bin/`:
 
 ```
-$ cp ramdisk .local/bin/
+$ cp ramdisk ~/.local/bin/
+```
+
+You can also create a symlink:
+
+```
+$ ln -s full/path/to/ramdisk ~/.local/bin/ramdisk
 ```
 
 > Note: if that doesn't work, try `chmod +x`
