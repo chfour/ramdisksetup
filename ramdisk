@@ -1,0 +1,37 @@
+#!/bin/bash
+
+if [ -z "$1" -o "$1" = "-h" ]; then
+	echo "usage: $0 [-h] SIZE [PATH]"
+	echo "  -h: display command usage (this message)"
+	echo "  SIZE: size, for example '1G' or '1m'"
+	echo "  PATH: mountpoint for ramdisk, default = /tmp/ramdisk"
+	echo "WARNING: script needs root permissions, run with sudo"
+	exit
+fi
+
+if [ "$EUID" -ne 0 ]; then
+	echo "Please run as root!"
+	exit
+fi
+
+devname="ramdisk"
+
+mountpoint="/tmp/ramdisk"
+if [ "$2" != "" ]; then
+	mountpoint="$2"
+fi
+
+set -e
+onerror(){
+	echo "Error! Check parameters."
+}
+trap on_exit ERR
+
+echo "Size: $1 @ $mountpoint"
+
+mkdir "$mountpoint"; chmod 777 "$mountpoint"
+echo "* Mountpoint created"
+mount -t tmpfs -o size="$1" "$devname" "$mountpoint"
+echo "* tmpfs mounted!"
+echo "Unmount with:"
+echo " sudo umount $mountpoint"
