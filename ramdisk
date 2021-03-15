@@ -25,9 +25,9 @@ set -e
 onerror(){
 	echo "Error! Check parameters."
 }
-trap on_exit ERR
+trap onerror ERR
 
-echo "Size: $1 @ $mountpoint"
+echo "$1 @ $mountpoint"
 
 mkdir "$mountpoint"; chmod 777 "$mountpoint"
 echo "* Mountpoint created"
